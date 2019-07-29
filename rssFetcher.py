@@ -8,6 +8,8 @@ EMAIL_USER = "your.user@your.address"
 EMAIL_PASSWD = "your.password"
 EMAIL_FROM = "News Service <your.user@your.address>"
 KINDLE_EMAIL = "@kindle.com"
+
+
 PANDOC = "/usr/bin/pandoc"
 KINDLE_GEN = "./kindlegen"
 FEED_FILE = "feeds.txt"
@@ -161,25 +163,6 @@ def get_posts_list(feed_list, START):
     ## When all is said and done,
     return posts
 
-# Old, in-thread version. Takes minutes to download all feeds.
-# def get_posts_list(feed_list, START):
-#     """docstring for get_posts_list"""
-#     posts=[]
-#     for url in feed_list:
-#         feed = feedparser.parse(url)
-#
-#         try:
-#             blog = feed['feed']['title']
-#         except KeyError:
-#             blog = "---"
-#
-#         for entry in feed['entries']:
-#             post = process_entry(entry, blog, START)
-#             if post:
-#                 posts.append(post)
-#     return posts
-
-
 def nicedate(dt):
     return dt.strftime('%d %B %Y').strip('0')
 
@@ -221,42 +204,8 @@ html_perpost=u"""
     </article>
 """
 
-
-import smtplib
-from email.mime.application import MIMEApplication
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from email.utils import COMMASPACE, formatdate
 from subprocess import Popen, PIPE
 
-
-def send_mail(send_from, send_to, subject, text, files):
-    # assert isinstance(send_to, list)
-
-    msg = MIMEMultipart()
-    msg['From'] = send_from
-    msg['To'] = COMMASPACE.join(send_to)
-    msg['Date'] = formatdate(localtime=True)
-    msg['Subject'] = subject
-    msg.attach(MIMEText(text, 'text', 'utf-8'))
-
-    for f in files or []:
-        with open(f, "rb") as fil:
-            msg.attach(MIMEApplication(
-                fil.read(),
-                Content_Disposition='attachment; filename="%s"' % os.path.basename(f),
-                Name=os.path.basename(f)
-            ))
-
-    smtp = smtplib.SMTP_SSL()
-    smtp.connect(EMAIL_SMTP)
-    smtp.login(EMAIL_USER, EMAIL_PASSWD)
-    smtp.sendmail(send_from, send_to, msg.as_string())
-    smtp.quit()
-    # p = Popen(["/usr/sbin/sendmail", "-t", "-oi"], stdin=PIPE)
-    # p.communicate(msg.as_string())
-    
-    
 
 def do_one_round():
     # get all posts from starting point to now
@@ -303,11 +252,14 @@ def do_one_round():
         print "Sending to kindle email"
         sys.stdout.flush()
 
-        send_mail(  send_from=EMAIL_FROM,
-                    send_to=[KINDLE_EMAIL],
-                    subject="Daily News",
-                    text="This is your daily news.\n\n--\n\n",
-                    files=[oofile])
+
+#        send_mail(  send_from=EMAIL_FROM,
+#                    send_to=[KINDLE_EMAIL],
+#                    subject="Daily News",
+#                    text="This is your daily news.\n\n--\n\n",
+#                    files=[oofile])                    
+                    
+                    
         print "Cleaning up."
         sys.stdout.flush()
         os.remove(ofile)
