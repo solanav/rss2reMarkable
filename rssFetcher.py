@@ -101,14 +101,12 @@ def get_posts():
         with codecs.open('dailynews.html', 'w', 'utf-8') as f:
             f.write(result)
             
+        if os.path.exists('dailynews.pdf'):
+            os.remove('dailynews.pdf')
+        else:
+            print("Can not delete the file as it doesn't exists")
         os.environ['PYPANDOC_PANDOC'] = PANDOC
-        pypandoc.convert(result,
-            to='epub3',
-            format="html",
-            outputfile="dailynews.epub",
-            extra_args=["--standalone",
-                        "--epub-cover-image=cover.png",
-                    ])
+        pypandoc.convert('dailynews.html', 'pdf', outputfile='dailynews.pdf', extra_args=['-V geometry:margin=1.5cm', '--standalone', '--table-of-contents'])
             
     return result
     
