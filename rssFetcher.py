@@ -73,7 +73,7 @@ def get_posts():
             continue
         print "Downloading entries"
         for e in f['entries']:
-            print 'Source:'+e
+            print 'Source:'+str(e)
             try:
                 when = e['updated_parsed']
             except KeyError:
