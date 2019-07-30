@@ -9,6 +9,7 @@ import os
 import codecs
 import pypandoc
 import re
+from unidecode import unidecode
 
 PANDOC = "/usr/bin/pandoc"
 RMAPI = "./rmapi"
@@ -45,10 +46,14 @@ html_perpost=u"""
     </article>
 """
 
+def remove_non_ascii(text):
+    return unidecode(unicode(text, encoding = "utf-8"))
+
 def cleanhtml(raw_html):
   cleanr = re.compile('<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});')
   cleantext = re.sub(cleanr, '', raw_html)
-  return re.sub(r'([^\s\w]|_)+', '', cleantext)
+  #return re.sub(r'([^\s\w]|_)+', '', cleantext)
+  return remove_non_ascii(cleantext)
 
 def load_feeds():
     with open(feed_file, 'r') as f:
