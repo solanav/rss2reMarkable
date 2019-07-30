@@ -68,7 +68,7 @@ def get_posts():
     for s in load_feeds():
         f = fp.parse(s)
         try:
-            blog = cleanhtml(f['feed']['title'])
+            blog = f['feed']['title']
             print 'Source:'+str(blog)
         except KeyError:
             continue
@@ -80,7 +80,7 @@ def get_posts():
                 when = e['published_parsed']
             when =  utc.localize(datetime.fromtimestamp(time.mktime(when)))
             if when > get_start_time():
-                title = e['title']
+                title = cleanhtml(e['title'])
                 try:
                     body = cleanhtml(e['content'][0]['value'])
                 except KeyError:
