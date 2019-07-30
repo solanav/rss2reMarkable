@@ -45,14 +45,8 @@ html_perpost=u"""
     </article>
 """
 
-def remove_non_ascii(unicode_string):
-     for i in range(0, len(unicode_string)):
-         try:
-             unicode_string[i].encode("ascii")
-         except:
-              #means it's non-ASCII
-              unicode_string=unicode_string[i].replace(" ") #replacing it with a single space
-     return unicode_string
+def remove_non_ascii(old_string):
+     return old_string.encode('ascii',errors='ignore')
 
 def cleanhtml(raw_html):
   cleanr = re.compile('<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});')
