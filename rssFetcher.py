@@ -48,7 +48,7 @@ html_perpost=u"""
 def cleanhtml(raw_html):
   cleanr = re.compile('<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});')
   cleantext = re.sub(cleanr, '', raw_html)
-  return cleantext.decode('utf8').encode('utf8')
+  return cleantext
 
 def load_feeds():
     with open(feed_file, 'r') as f:
@@ -68,23 +68,24 @@ def get_posts():
     for s in load_feeds():
         f = fp.parse(s)
         try:
-            blog = f['feed']['title'].decode('utf8').encode('utf8')
+            blog = f['feed']['title']
         except KeyError:
             continue
         print "Downloading entries"
         for e in f['entries']:
+            print 'Source:'+e
             try:
                 when = e['updated_parsed']
             except KeyError:
                 when = e['published_parsed']
             when =  utc.localize(datetime.fromtimestamp(time.mktime(when)))
             if when > get_start_time():
-                title = e['title'].decode('utf8').encode('utf8')
+                title = e['title']
                 try:
                     body = e['content'][0]['value']
                 except KeyError:
                     body = cleanhtml(e['summary'])
-                link = e['link'].decode('utf8').encode('utf8')
+                link = e['link']
                 posts.append((when, blog, title, link, body))
     posts.sort()
     posts.reverse()
@@ -99,7 +100,7 @@ def get_posts():
             
         print "Compiling newspaper"
         result = html_head + u"\n".join(litems) + html_tail
-        with codecs.open('dailynews.html', 'w', encoding="utf-8") as f:
+        with codecs.open('dailynews.html', 'w', 'utf-8') as f:
             f.write(result)
             
         if os.path.exists('dailynews.pdf'):
