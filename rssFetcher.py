@@ -11,7 +11,7 @@ import pypandoc
 import re
 
 PANDOC = "/usr/bin/pandoc"
-RMAPI = "./rMapi"
+RMAPI = "./rmapi"
 FEED_FILE = "feeds.txt"
 feed_file = os.path.expanduser(FEED_FILE)
 utc = pytz.utc
