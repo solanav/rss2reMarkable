@@ -68,7 +68,7 @@ def get_posts():
     for s in load_feeds():
         f = fp.parse(s)
         try:
-            blog = f['feed']['title']
+            blog = cleanhtml(f['feed']['title'])
             print 'Source:'+str(blog)
         except KeyError:
             continue
@@ -85,7 +85,7 @@ def get_posts():
                     body = cleanhtml(e['content'][0]['value'])
                 except KeyError:
                     body = cleanhtml(e['summary'])
-                link = e['link']
+                link = cleanhtml(e['link'])
                 posts.append((when, blog, title, link, body))
     posts.sort()
     posts.reverse()
