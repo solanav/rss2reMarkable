@@ -69,11 +69,11 @@ def get_posts():
         f = fp.parse(s)
         try:
             blog = f['feed']['title']
+            print 'Source:'+str(blog)
         except KeyError:
             continue
         print "Downloading entries"
         for e in f['entries']:
-            print 'Source:'+str(e['author'])
             try:
                 when = e['updated_parsed']
             except KeyError:
