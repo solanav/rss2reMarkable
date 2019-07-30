@@ -48,7 +48,7 @@ html_perpost=u"""
 def cleanhtml(raw_html):
   cleanr = re.compile('<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});')
   cleantext = re.sub(cleanr, '', raw_html)
-  return re.sub(r'\W+', '', cleantext)
+  return re.sub(r'([^\s\w]|_)+', '', cleantext)
 
 def load_feeds():
     with open(feed_file, 'r') as f:
