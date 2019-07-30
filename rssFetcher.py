@@ -96,7 +96,7 @@ def get_posts():
             q = [ x.encode('utf8') for x in post[1:] ]
             timestamp = post[0].astimezone(homeTZ)
             q.insert(0, timestamp.strftime('%b %d, %Y %I:%M %p'))
-            litems.append(html_perpost.format(*q))
+            litems.append(html_perpost.format(q))
             
         print "Compiling newspaper"
         result = html_head + u"\n".join(litems) + html_tail

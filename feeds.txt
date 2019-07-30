@@ -8,3 +8,4 @@ http://feeds.feedburner.com/AmazonWebServicesBlog
 http://feeds.feedburner.com/GoogleOpenSourceBlog
 https://static.fsf.org/fsforg/rss/news.xml
 https://static.fsf.org/fsforg/rss/blogs.xml
+https://blog.remarkable.com/feed
