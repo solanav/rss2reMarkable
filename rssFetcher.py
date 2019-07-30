@@ -104,6 +104,8 @@ def get_posts():
             
         if os.path.exists('dailynews.pdf'):
             print "Pushing updated file"
+            cmd = RMAPI+" rm "+'dailynews.pdf'
+            os.system(cmd)
             cmd = RMAPI+" put "+'dailynews.pdf'
             os.system(cmd)
             os.remove('dailynews.pdf')
