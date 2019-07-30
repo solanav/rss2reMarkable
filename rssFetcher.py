@@ -11,6 +11,7 @@ import pypandoc
 import re
 
 PANDOC = "/usr/bin/pandoc"
+RMAPI = "./rMapi"
 FEED_FILE = "feeds.txt"
 feed_file = os.path.expanduser(FEED_FILE)
 utc = pytz.utc
@@ -102,6 +103,9 @@ def get_posts():
             f.write(result)
             
         if os.path.exists('dailynews.pdf'):
+            print "Pushing updated file"
+            cmd = RMAPI+" put "+'dailynews.pdf'
+            os.system(cmd)
             os.remove('dailynews.pdf')
         else:
             print("Can not delete the file as it doesn't exists")
