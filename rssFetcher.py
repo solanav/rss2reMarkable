@@ -49,15 +49,15 @@ def remove_non_ascii(old_string):
      return old_string.encode('ascii',errors='ignore')
 
 def cleanhtml(raw_html):
-  cleanr = re.compile('<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});')
-  cleantext = re.sub(cleanr, '', raw_html)
-  #return re.sub(r'([^\s\w]|_)+', '', cleantext)
-  return remove_non_ascii(cleantext)
+  #cleanr = re.compile('<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});')
+  #cleantext = re.sub(cleanr, '', raw_html)
+  #return remove_non_ascii(cleantext)
+  return remove_non_ascii(raw_html)
 
 def load_feeds():
     with open(feed_file, 'r') as f:
         return list(f)
-        
+
 def get_start_time():
     dt = datetime.now(homeTZ)
     if dt.hour < 2:
@@ -65,7 +65,7 @@ def get_start_time():
     start = dt.replace(hour=0, minute=0, second=0, microsecond=0)
     start = start.astimezone(utc)
     return start
-    
+
 def get_posts():
     print "Checking feeds"
     posts = []
@@ -101,12 +101,12 @@ def get_posts():
             timestamp = post[0].astimezone(homeTZ)
             q.insert(0, timestamp.strftime('%b %d, %Y %I:%M %p'))
             litems.append(html_perpost.format(*q))
-            
+
         print "Compiling newspaper"
         result = html_head + u"\n".join(litems) + html_tail
         with codecs.open('dailynews.html', 'w', 'utf-8') as f:
             f.write(result)
-            
+
         if os.path.exists('dailynews.pdf'):
             print "Pushing updated file"
             cmd = RMAPI+" rm "+'dailynews'
@@ -120,9 +120,9 @@ def get_posts():
             print("Can not delete the file as it doesn't exists")
         os.environ['PYPANDOC_PANDOC'] = PANDOC
         pypandoc.convert('dailynews.html', 'pdf', outputfile='dailynews.pdf', extra_args=['-V geometry:margin=1.5cm', '--standalone', '--table-of-contents'])
-            
+
     return result
-    
-    
+
+
 if __name__ == '__main__':
     get_posts()
