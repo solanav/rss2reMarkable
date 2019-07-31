@@ -49,10 +49,9 @@ def remove_non_ascii(old_string):
      return old_string.encode('ascii',errors='ignore')
 
 def cleanhtml(raw_html):
-  #cleanr = re.compile('<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});')
-  #cleantext = re.sub(cleanr, '', raw_html)
-  #return remove_non_ascii(cleantext)
-  return remove_non_ascii(raw_html)
+  cleanr = re.compile('<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});')
+  cleantext = re.sub(cleanr, '', raw_html)
+  return remove_non_ascii(cleantext)
 
 def load_feeds():
     with open(feed_file, 'r') as f:
