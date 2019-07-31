@@ -4,19 +4,24 @@ rss2reMarkable is a small python script that will fetch your favorite RSS feeds 
 
 ## Instalation (requirements)
 ### Python modules
+
 $ pip install pytz pypandoc feedparser
 
 ### Pandoc
-https://pandoc.org/installing.html
 $ sudo apt-get install pandoc texlive-latex-base texlive-fonts-recommended
 
 ### rMapi (reMarkable API Client - GO)
 $ cd rss2reMarkable/
+
 $ go get -u github.com/juruen/rmapi
+
 $ go build -a github.com/juruen/rmapi
 
 ## Configuration
 * Add the RSS feed URLs in the feeds.txt file.
+
 * run rmapi and add your unique code:
+
 $ ./rmapi
+
 ## Execute
