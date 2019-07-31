@@ -18,10 +18,10 @@ $ go get -u github.com/juruen/rmapi
 $ go build -a github.com/juruen/rmapi
 
 ## Configuration
-* Add the RSS feed URLs in the feeds.txt file.
-
-* run rmapi and add your unique code:
+Add the RSS feed URLs in the feeds.txt file, and then run rmapi to add your unique code:
 
 $ ./rmapi
 
 ## Execute
+
+$ python rssFetcher.py
