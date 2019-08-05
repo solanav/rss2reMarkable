@@ -9,6 +9,8 @@ import os
 import codecs
 import pypandoc
 import re
+import unidecode
+import unicodedata
 
 PANDOC = "/usr/bin/pandoc"
 RMAPI = "./rmapi"
@@ -45,8 +47,12 @@ html_perpost=u"""
     </article>
 """
 
-def remove_non_ascii(old_string):
-     return old_string.encode('ascii',errors='ignore')
+#def remove_non_ascii(old_string):
+#     return old_string.encode('ascii',errors='ignore')
+
+def remove_non_ascii(s):
+    txt = ''.join((c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn'))
+    return txt.encode('ascii',errors='ignore')
 
 def cleanhtml(raw_html):
   cleanr = re.compile('<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});')
@@ -103,7 +109,7 @@ def get_posts():
 
         print "Compiling newspaper"
         result = html_head + u"\n".join(litems) + html_tail
-        with codecs.open('dailynews.html', 'w', 'utf-8') as f:
+        with codecs.open('dailynews.html', 'w', 'utf-8',  errors = 'ignore') as f:
             f.write(result)
 
         if os.path.exists('dailynews.pdf'):

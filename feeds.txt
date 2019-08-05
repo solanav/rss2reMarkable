@@ -2,7 +2,6 @@ https://opensource.com/feed
 https://lwn.net/headlines/rss
 https://www.geekwire.com/feed/
 https://www.linux.com/feeds/rss
-http://feeds.feedburner.com/desdelinuxweb
 https://feeds.feedburner.com/fayerwayer
 http://feeds.feedburner.com/AmazonWebServicesBlog
 http://feeds.feedburner.com/GoogleOpenSourceBlog
