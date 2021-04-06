@@ -72,16 +72,16 @@ def get_start_time():
     return start
 
 def get_posts():
-    print "Checking feeds"
+    print("Checking feeds")
     posts = []
     for s in load_feeds():
         f = fp.parse(s)
         try:
             blog = cleanhtml(f['feed']['title'])
-            print 'Source:'+str(blog)
+            print('Source: ' + str(blog))
         except KeyError:
             continue
-        print "Downloading entries"
+        print("Downloading entries")
         for e in f['entries']:
             try:
                 when = e['updated_parsed']
@@ -100,31 +100,31 @@ def get_posts():
     posts.reverse()
     if posts:
         litems = []
-        print "Formating posts"
+        print("Formating posts")
         for post in posts:
-            q = [ x.encode('utf8') for x in post[1:] ]
+            q = [ x.decode("utf-8") for x in post[1:] ]
             timestamp = post[0].astimezone(homeTZ)
             q.insert(0, timestamp.strftime('%b %d, %Y %I:%M %p'))
             litems.append(html_perpost.format(*q))
 
-        print "Compiling newspaper"
+        print("Compiling newspaper")
         result = html_head + u"\n".join(litems) + html_tail
         with codecs.open('dailynews.html', 'w', 'utf-8',  errors = 'ignore') as f:
             f.write(result)
 
         if os.path.exists('dailynews.pdf'):
-            print "Pushing updated file"
+            print("Pushing updated file")
             cmd = RMAPI+" rm "+'dailynews'
-            print cmd
+            print(cmd)
             os.system(cmd)
             cmd = RMAPI+" put "+'dailynews.pdf'
-            print cmd
+            print(cmd)
             os.system(cmd)
             os.remove('dailynews.pdf')
         else:
             print("Can not delete the file as it doesn't exists")
         os.environ['PYPANDOC_PANDOC'] = PANDOC
-        pypandoc.convert('dailynews.html', 'pdf', outputfile='dailynews.pdf', extra_args=['-V geometry:margin=1.5cm', '--standalone', '--table-of-contents'])
+        pypandoc.convert_file('dailynews.html', 'pdf', outputfile='dailynews.pdf', extra_args=['-V geometry:margin=1.5cm', '--standalone', '--table-of-contents'])
 
     return result
 
